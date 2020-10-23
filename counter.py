@@ -86,7 +86,10 @@ def count_lines(filename):
     """
     num_lines = 0
     files = get_files(filename)
-    for i in files:
+    for i in files:  # for every object in the directory, check if it is a file or a directory:
+        # If it is a directory, recursively call the function with the directory path.
+        # If it is a file, count the number of the lines in the file.
+        # Finally return the total number of lines counted in the directory
         name = create_filename(i[0])
         print(name)
         if i[1] == "Directory":
@@ -97,9 +100,14 @@ def count_lines(filename):
 
 
 def main(filename):
+    """
+    main function, calls the applicable functions for counting the total number of the lines in the directory or file
+    :param filename: github directory or file url
+    :return: None, prints the total number of lines in the github directory or file
+    """
     try:
         print(count_lines(filename))
-    except:
+    finally:
         print(file_num_lines(filename))
 
 
