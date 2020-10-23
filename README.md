@@ -7,10 +7,16 @@ for running the script either run the command:
 python counter.py [file_url]
 ```
 
-(note that the square brackets [ ] should be deleted)
-
 or 
 
 ```
 python counter.py
 ```
+
+and than entering the url:
+
+```
+Please enter repository url: [file_url]
+```
+
+(please note that the square brackets [ ] should be deleted in both methods)
