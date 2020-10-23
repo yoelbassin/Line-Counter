@@ -13,7 +13,7 @@ or
 python counter.py
 ```
 
-and than entering the url:
+and than enter the url:
 
 ```
 Please enter repository url: [file_url]
