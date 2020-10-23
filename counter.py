@@ -4,6 +4,12 @@ import sys
 
 
 def get_files(filename):
+    """
+    returns the files and directories from a specific directory
+
+    :param filename: github rep url
+    :return: tuple - (file or directory path, file type directory or file)
+    """
     # generate connection
     url_ = Request(filename)
     u_client = urlopen(url_)
@@ -15,20 +21,26 @@ def get_files(filename):
     con = parsed_page.find("div", {"class": "Box mb-3"})
     files = con.findAll("div", {"role": "row"})
     files = files[1:]
-    try:
+    try:  # checks if the current directory is not the main directory, for the deletion of the 'go to parent
+        # directory row', for prevention of an infinite loop
         if files[0].find("a")["title"] == "Go to parent directory":
-            files = files[1:]
-    except:
+            files = files[1:]  # deletion of the "go to parent directory" row
+    finally:  # if the directory is the main directory there is no <a title> tag so an exception will be thrown
         pass
-    tags = list()
-    for i in files:
+    paths = list()
+    for i in files:  # creates a tuple (path, file_type) for every file in the directory
         title = i.find("div", {"role": "rowheader"}).find("a")['href']
         file_type = i.find("div", {"role": "gridcell"}).find("svg")['aria-label']
-        tags.append((title, file_type))
-    return tags
+        paths.append((title, file_type))
+    return paths
 
 
 def file_header_data(filename):
+    """
+    return the github code box header, i.e. '__ lines (__ sloc) | __ KB' in the specified file
+    :param filename: github file path
+    :return: string containing the github code box header
+    """
     # generate connection
     url_ = Request(filename)
     u_client = urlopen(url_)
@@ -42,21 +54,36 @@ def file_header_data(filename):
     return lines.text
 
 
-def file_lines(filename):
-    data = file_header_data(filename)
+def file_num_lines(filename):
+    """
+    return the number of lines in the specified file
+    :param filename: github file path
+    :return: integer representing the number of the lines
+    """
+    data = file_header_data(filename)  # get the github code box header
     if "lines" in data:
         data = data.split(" ")
         # lines index:
-        lines_idx = data.index("lines")
-        return data[lines_idx - 1]
-    return '0'
+        lines_idx = data.index("lines")  # find the index of the string "lines"
+        return data[lines_idx - 1]  # return the data before the string "lines", i.e. the number of the lines
+    return '0'  # return 0 if the file doesn't contain code lines
 
 
-def create_filename(filename):
-    return 'https://github.com' + filename
+def create_filename(filepath):
+    """
+    generates a url from the path in the repository
+    :param filepath: the repository path
+    :return: the github.com/path url
+    """
+    return 'https://github.com' + filepath
 
 
 def count_lines(filename):
+    """
+    counts the number of lines in all the directories and files
+    :param filename: github directory url
+    :return: integer representing the total number of the lines in the directory
+    """
     num_lines = 0
     files = get_files(filename)
     for i in files:
@@ -65,7 +92,7 @@ def count_lines(filename):
         if i[1] == "Directory":
             num_lines += count_lines(name)
         else:
-            num_lines += int(file_lines(name))
+            num_lines += int(file_num_lines(name))
     return num_lines
 
 
@@ -73,7 +100,7 @@ def main(filename):
     try:
         print(count_lines(filename))
     except:
-        print(file_lines(filename))
+        print(file_num_lines(filename))
 
 
 if __name__ == "__main__":
