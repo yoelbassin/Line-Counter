@@ -1,4 +1,4 @@
-# TotalLines-Github
+# Github Line counter
 This script will count the total number of lines in your github project using bs4 and urllib
 
 for running the script either run the command:
