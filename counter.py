@@ -25,7 +25,7 @@ def get_files(filename):
         # directory row', for prevention of an infinite loop
         if files[0].find("a")["title"] == "Go to parent directory":
             files = files[1:]  # deletion of the "go to parent directory" row
-    finally:  # if the directory is the main directory there is no <a title> tag so an exception will be thrown
+    except:  # if the directory is the main directory there is no <a title> tag so an exception will be thrown
         pass
     paths = list()
     for i in files:  # creates a tuple (path, file_type) for every file in the directory
@@ -107,7 +107,7 @@ def main(filename):
     """
     try:
         print(count_lines(filename))
-    finally:
+    except:
         print(file_num_lines(filename))
 
 
