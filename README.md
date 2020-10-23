@@ -7,7 +7,7 @@ for running the script either run the command:
 python counter.py [file_url]
 ```
 
-(note that the [] should be deleted)
+(note that the square brackets [ ] should be deleted)
 
 or 
 
