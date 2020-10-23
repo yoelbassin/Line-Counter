@@ -1,7 +1,7 @@
 # Github Line counter
-This script will count the total number of lines in your github project using bs4 and urllib
+This script will count the total number of lines in your github project using bs4 and urllib.
 
-for running the script either run the command:
+For running the script either run the command:
 
 ```
 python counter.py [file_url]
